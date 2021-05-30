@@ -1,0 +1,1 @@
+python infer.py --tta 1 --batch_size 32 --model_type 'tf_efficientnet_b3_ns' --postfix 'v7_4folds_tta'

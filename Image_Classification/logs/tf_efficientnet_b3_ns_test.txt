@@ -1,0 +1,132 @@
+2021-04-08 01:46:15,228  |  ====Model Summary====
+======================================================================
+Layer (type:depth-idx)                        Param #
+======================================================================
+├─Backbone: 1-1                               --
+|    └─EfficientNet: 2-1                      --
+|    |    └─Conv2dSame: 3-1                   1,080
+|    |    └─BatchNorm2d: 3-2                  80
+|    |    └─SiLU: 3-3                         --
+|    |    └─Sequential: 3-4                   10,102,176
+|    |    └─Conv2d: 3-5                       589,824
+|    |    └─BatchNorm2d: 3-6                  3,072
+|    |    └─SiLU: 3-7                         --
+|    |    └─SelectAdaptivePool2d: 3-8         --
+|    |    └─Identity: 3-9                     --
+├─GeM: 1-2                                    1
+├─ModuleList: 1-3                             --
+|    └─Dropout: 2-2                           --
+|    └─Dropout: 2-3                           --
+|    └─Dropout: 2-4                           --
+|    └─Dropout: 2-5                           --
+|    └─Dropout: 2-6                           --
+|    └─Dropout: 2-7                           --
+|    └─Dropout: 2-8                           --
+|    └─Dropout: 2-9                           --
+|    └─Dropout: 2-10                          --
+|    └─Dropout: 2-11                          --
+|    └─Dropout: 2-12                          --
+|    └─Dropout: 2-13                          --
+|    └─Dropout: 2-14                          --
+|    └─Dropout: 2-15                          --
+|    └─Dropout: 2-16                          --
+|    └─Dropout: 2-17                          --
+├─Sequential: 1-4                             --
+|    └─Linear: 2-18                           786,944
+|    └─BatchNorm1d: 2-19                      1,024
+|    └─PReLU: 2-20                            1
+├─ArcMarginProduct: 1-5                       9,216
+======================================================================
+Total params: 11,493,418
+Trainable params: 11,493,418
+Non-trainable params: 0
+======================================================================
+
+2021-04-08 01:46:15,228  |  ====Config Summary====
+postfix ==> test
+main_dir ==> .
+data_dir ==> input/data
+image_folder ==> input/data/train/cropped_images
+meta_dir ==> input/data/train/train.csv
+gridshuffle ==> True
+mixed_precision ==> False
+n_fold ==> 4
+s_epoch ==> 1
+t_epoch ==> 15
+weight_path ==> None
+weighed_sampler ==> False
+device ==> cpu
+nosiy_elimination ==> False
+clipping ==> False
+crit ==> arcface
+arcface_crit ==> focal
+focal_type ==> bce
+cls_weight ==> True
+focal_gamma ==> 5.0
+optim ==> SGD
+lr ==> 0.002
+weight_decay ==> 0.0
+sched_type ==> ==plateau
+sched_T_0 ==> 70
+eta_min ==> 7e-05
+cls_num ==> 18
+backbone_name ==> tf_efficientnet_b3_ns
+checkpoint ==> checkpoints/tf_efficientnet_b3_ns_test
+backbone_pretrained ==> True
+embed_size ==> 512
+pool ==> gem
+p_trainable ==> True
+neck ==> option-D
+multi_dropout ==> True
+multi_dropout_num ==> 16
+multi_dropout_prob ==> 0.2
+pseudo_label ==> True
+pseudo_label_data ==> submission/tf_efficientnet_b3_ns_v6_tta.csv
+log_interval ==> 50
+log_dir ==> logs/tf_efficientnet_b3_ns_test.txt
+mean ==> [0.56019358, 0.52410121, 0.501457]
+std ==> [0.23318603, 0.24300033, 0.24567522]
+trn_tfms ==> Compose([
+  Resize(always_apply=False, p=1.0, height=384, width=288, interpolation=1),
+  HorizontalFlip(always_apply=False, p=0.7),
+  GaussNoise(always_apply=False, p=0.5, var_limit=(10.0, 50.0), per_channel=True, mean=0),
+  ShiftScaleRotate(always_apply=False, p=0.6, shift_limit_x=(-0.1, 0.1), shift_limit_y=(-0.1, 0.1), scale_limit=(-0.25, 0.25), rotate_limit=(-20, 20), interpolation=1, border_mode=0, value=None, mask_value=None),
+  OneOf([
+    CLAHE(always_apply=False, p=0.5, clip_limit=(1, 4.0), tile_grid_size=(8, 8)),
+    Compose([
+      RandomBrightness(always_apply=False, p=0.6, limit=(-0.5, 0.5)),
+      RandomContrast(always_apply=False, p=0.6, limit=(-0.4, 0.4)),
+      RandomGamma(always_apply=False, p=0.6, gamma_limit=(80, 120), eps=None),
+    ], p=1.0, bbox_params=None, keypoint_params=None, additional_targets={}),
+  ], p=0.65),
+  OneOf([
+    HueSaturationValue(always_apply=False, p=1.0, hue_shift_limit=(-10, 10), sat_shift_limit=(-20, 20), val_shift_limit=(-10, 10)),
+    RGBShift(always_apply=False, p=1.0, r_shift_limit=(-20, 20), g_shift_limit=(-20, 20), b_shift_limit=(-20, 20)),
+    Emboss(always_apply=False, p=1.0, alpha=(0.2, 0.5), strength=(0.2, 0.7)),
+  ], p=0.5),
+  RandomFog(always_apply=False, p=0.3, fog_coef_lower=0.3, fog_coef_upper=0.3, alpha_coef=0.08),
+  OneOf([
+    Perspective(always_apply=False, p=1.0, scale=(0.05, 0.1), keep_size=True, pad_mode=0, pad_val=0, mask_pad_val=0, fit_output=False, interpolation=1),
+    GridDistortion(always_apply=False, p=1.0, num_steps=5, distort_limit=(-0.25, 0.25), interpolation=1, border_mode=0, value=None, mask_value=None),
+    OpticalDistortion(always_apply=False, p=1.0, distort_limit=(-0.1, 0.1), shift_limit=(-0.1, 0.1), interpolation=1, border_mode=0, value=None, mask_value=None),
+  ], p=0.65),
+  Normalize(always_apply=False, p=1.0, mean=[0.56019358, 0.52410121, 0.501457], std=[0.23318603, 0.24300033, 0.24567522], max_pixel_value=255.0),
+], p=1.0, bbox_params=None, keypoint_params=None, additional_targets={})
+val_tfms ==> Compose([
+  Resize(always_apply=False, p=1, height=384, width=288, interpolation=1),
+  Normalize(always_apply=False, p=1.0, mean=[0.56019358, 0.52410121, 0.501457], std=[0.23318603, 0.24300033, 0.24567522], max_pixel_value=255.0),
+], p=1.0, bbox_params=None, keypoint_params=None, additional_targets={})
+
+2021-04-08 01:46:15,264  |  Dataloader Setting...
+2021-04-08 01:46:15,265  |  Done.
+
+2021-04-08 01:46:15,265  |  Criterion Setting...
+2021-04-08 01:46:15,270  |  Done.
+
+2021-04-08 01:46:15,270  |  Optimizer Setting...
+2021-04-08 01:46:15,274  |  Done.
+
+2021-04-08 01:46:15,274  |  Scheduler Setting...
+2021-04-08 01:46:15,274  |  Done.
+
+2021-04-08 01:46:15,274  |  Fold-[1] ==> Training on epoch1...

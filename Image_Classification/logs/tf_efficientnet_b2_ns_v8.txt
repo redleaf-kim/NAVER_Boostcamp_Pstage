@@ -1,0 +1,215 @@
+2021-04-06 12:47:49,379  |  ====Model Summary====
+======================================================================
+Layer (type:depth-idx)                        Param #
+======================================================================
+├─Backbone: 1-1                               --
+|    └─EfficientNet: 2-1                      --
+|    |    └─Conv2dSame: 3-1                   864
+|    |    └─BatchNorm2d: 3-2                  64
+|    |    └─SwishMe: 3-3                      --
+|    |    └─Sequential: 3-4                   7,201,634
+|    |    └─Conv2d: 3-5                       495,616
+|    |    └─BatchNorm2d: 3-6                  2,816
+|    |    └─SwishMe: 3-7                      --
+|    |    └─SelectAdaptivePool2d: 3-8         --
+|    |    └─Identity: 3-9                     --
+├─GeM: 1-2                                    1
+├─ModuleList: 1-3                             --
+|    └─Dropout: 2-2                           --
+|    └─Dropout: 2-3                           --
+|    └─Dropout: 2-4                           --
+|    └─Dropout: 2-5                           --
+|    └─Dropout: 2-6                           --
+|    └─Dropout: 2-7                           --
+|    └─Dropout: 2-8                           --
+|    └─Dropout: 2-9                           --
+|    └─Dropout: 2-10                          --
+|    └─Dropout: 2-11                          --
+|    └─Dropout: 2-12                          --
+|    └─Dropout: 2-13                          --
+|    └─Dropout: 2-14                          --
+|    └─Dropout: 2-15                          --
+|    └─Dropout: 2-16                          --
+|    └─Dropout: 2-17                          --
+├─Sequential: 1-4                             --
+|    └─Linear: 2-18                           721,408
+|    └─BatchNorm1d: 2-19                      1,024
+|    └─PReLU: 2-20                            1
+├─ArcMarginProduct: 1-5                       9,216
+======================================================================
+Total params: 8,432,644
+Trainable params: 8,432,644
+Non-trainable params: 0
+======================================================================
+
+2021-04-06 12:47:49,381  |  ====Config Summary====
+postfix ==> v8
+main_dir ==> /opt/ml
+data_dir ==> /opt/ml/input/data
+image_folder ==> /opt/ml/input/data/train/cropped_images
+unlabeld_folder ==> /opt/ml/input/data/unlabeled
+meta_dir ==> /opt/ml/input/data/train/train.csv
+gridshuffle ==> True
+mixed_precision ==> True
+n_fold ==> 4
+s_epoch ==> 1
+t_epoch ==> 15
+weight_path ==> None
+weighed_sampler ==> False
+device ==> cuda
+nosiy_elimination ==> False
+ratio_mode ==> constant
+ratio ==> 5.0
+clipping ==> False
+crit ==> arcface
+arcface_crit ==> focal
+focal_type ==> bce
+cls_weight ==> True
+focal_gamma ==> 5.0
+optim ==> SGD
+lr ==> 0.002
+weight_decay ==> 0.0
+sched_type ==> ==plateau
+sched_T_0 ==> 70
+eta_min ==> 7e-05
+cls_num ==> 18
+backbone_name ==> tf_efficientnet_b2_ns
+checkpoint ==> /opt/ml/checkpoints/tf_efficientnet_b2_ns_v8
+backbone_pretrained ==> True
+embed_size ==> 512
+pool ==> gem
+p_trainable ==> True
+neck ==> option-D
+multi_dropout ==> True
+multi_dropout_num ==> 16
+multi_dropout_prob ==> 0.2
+log_interval ==> 50
+log_dir ==> /opt/ml/logs/tf_efficientnet_b2_ns_v8.txt
+mean ==> [0.56019358, 0.52410121, 0.501457]
+std ==> [0.23318603, 0.24300033, 0.24567522]
+trn_tfms ==> Compose([
+  Resize(always_apply=False, p=1.0, height=384, width=288, interpolation=1),
+  HorizontalFlip(always_apply=False, p=0.7),
+  GaussNoise(always_apply=False, p=0.5, var_limit=(10.0, 50.0), per_channel=True, mean=0),
+  ShiftScaleRotate(always_apply=False, p=0.6, shift_limit_x=(-0.1, 0.1), shift_limit_y=(-0.1, 0.1), scale_limit=(-0.25, 0.25), rotate_limit=(-20, 20), interpolation=1, border_mode=0, value=None, mask_value=None),
+  OneOf([
+    CLAHE(always_apply=False, p=0.5, clip_limit=(1, 4.0), tile_grid_size=(8, 8)),
+    Compose([
+      RandomBrightness(always_apply=False, p=0.6, limit=(-0.5, 0.5)),
+      RandomContrast(always_apply=False, p=0.6, limit=(-0.4, 0.4)),
+      RandomGamma(always_apply=False, p=0.6, gamma_limit=(80, 120), eps=None),
+    ], p=1.0, bbox_params=None, keypoint_params=None, additional_targets={}),
+  ], p=0.65),
+  OneOf([
+    HueSaturationValue(always_apply=False, p=1.0, hue_shift_limit=(-10, 10), sat_shift_limit=(-20, 20), val_shift_limit=(-10, 10)),
+    RGBShift(always_apply=False, p=1.0, r_shift_limit=(-20, 20), g_shift_limit=(-20, 20), b_shift_limit=(-20, 20)),
+    Emboss(always_apply=False, p=1.0, alpha=(0.2, 0.5), strength=(0.2, 0.7)),
+  ], p=0.5),
+  RandomFog(always_apply=False, p=0.3, fog_coef_lower=0.3, fog_coef_upper=0.3, alpha_coef=0.08),
+  OneOf([
+    Perspective(always_apply=False, p=1.0, scale=(0.05, 0.1), keep_size=True, pad_mode=0, pad_val=0, mask_pad_val=0, fit_output=False, interpolation=1),
+    GridDistortion(always_apply=False, p=1.0, num_steps=5, distort_limit=(-0.25, 0.25), interpolation=1, border_mode=0, value=None, mask_value=None),
+    OpticalDistortion(always_apply=False, p=1.0, distort_limit=(-0.1, 0.1), shift_limit=(-0.1, 0.1), interpolation=1, border_mode=0, value=None, mask_value=None),
+  ], p=0.65),
+  Normalize(always_apply=False, p=1.0, mean=[0.56019358, 0.52410121, 0.501457], std=[0.23318603, 0.24300033, 0.24567522], max_pixel_value=255.0),
+], p=1.0, bbox_params=None, keypoint_params=None, additional_targets={})
+val_tfms ==> Compose([
+  Resize(always_apply=False, p=1, height=384, width=288, interpolation=1),
+  Normalize(always_apply=False, p=1.0, mean=[0.56019358, 0.52410121, 0.501457], std=[0.23318603, 0.24300033, 0.24567522], max_pixel_value=255.0),
+], p=1.0, bbox_params=None, keypoint_params=None, additional_targets={})
+
+2021-04-06 12:47:51,496  |  Dataloader Setting...
+2021-04-06 12:47:51,681  |  Done.
+
+2021-04-06 12:47:51,681  |  Criterion Setting...
+2021-04-06 12:47:51,692  |  Done.
+
+2021-04-06 12:47:51,693  |  Optimizer Setting...
+2021-04-06 12:47:51,694  |  Done.
+
+2021-04-06 12:47:51,694  |  Scheduler Setting...
+2021-04-06 12:47:51,695  |  Done.
+
+2021-04-06 12:47:51,695  |  Fold-[1] ==> Training on epoch1...
+2021-04-06 12:48:03,379  |  Fold-[1] ==> <Train> Epoch: [01|15]  Batch: [000|443]	 Train Acc: 0.0625	 Train F1: 0.023976023976023976	 Train Loss: 6.323877 => [l_loss: 6.317957 | kl_loss: 0.001184]
+2021-04-06 12:48:53,802  |  Fold-[1] ==> <Train> Epoch: [01|15]  Batch: [050|443]	 Train Acc: 0.29105392156862747	 Train F1: 0.13214720784142747	 Train Loss: 6.028975 => [l_loss: 6.022989 | kl_loss: 0.001197]
+2021-04-06 12:49:41,593  |  Fold-[1] ==> <Train> Epoch: [01|15]  Batch: [100|443]	 Train Acc: 0.4000618811881188	 Train F1: 0.20058780650603694	 Train Loss: 5.688257 => [l_loss: 5.681175 | kl_loss: 0.001416]
+2021-04-06 12:50:28,978  |  Fold-[1] ==> <Train> Epoch: [01|15]  Batch: [150|443]	 Train Acc: 0.4718543046357616	 Train F1: 0.25460809962534153	 Train Loss: 5.210192 => [l_loss: 5.199977 | kl_loss: 0.002043]
+2021-04-06 12:51:20,061  |  Fold-[1] ==> <Train> Epoch: [01|15]  Batch: [200|443]	 Train Acc: 0.5247201492537313	 Train F1: 0.3050333720693257	 Train Loss: 4.847234 => [l_loss: 4.833808 | kl_loss: 0.002685]
+2021-04-06 12:52:10,726  |  Fold-[1] ==> <Train> Epoch: [01|15]  Batch: [250|443]	 Train Acc: 0.5676045816733067	 Train F1: 0.35487612522217193	 Train Loss: 4.521223 => [l_loss: 4.505073 | kl_loss: 0.003230]
+2021-04-06 12:53:00,163  |  Fold-[1] ==> <Train> Epoch: [01|15]  Batch: [300|443]	 Train Acc: 0.6018480066445183	 Train F1: 0.3894345620455704	 Train Loss: 4.252471 => [l_loss: 4.234046 | kl_loss: 0.003685]
+2021-04-06 12:53:51,174  |  Fold-[1] ==> <Train> Epoch: [01|15]  Batch: [350|443]	 Train Acc: 0.6290954415954416	 Train F1: 0.41874947065404583	 Train Loss: 4.013561 => [l_loss: 3.993180 | kl_loss: 0.004076]
+2021-04-06 12:54:42,302  |  Fold-[1] ==> <Train> Epoch: [01|15]  Batch: [400|443]	 Train Acc: 0.6492362842892768	 Train F1: 0.44296991915482903	 Train Loss: 3.823110 => [l_loss: 3.800867 | kl_loss: 0.004449]
+2021-04-06 12:55:21,715  |  Fold-[1] ==> <Train> Epoch: [01|15]  Batch: [442|443]	 Train Acc: 0.6648401660234471	 Train F1: 0.4626564331611655	 Train Loss: 3.681716 => [l_loss: 3.658205 | kl_loss: 0.004702]
+2021-04-06 12:55:21,862  |  Fold-[1] ==> <Train> Epoch: [01|15] REPOST
+[[1768  161   26  117   90   13  109   12    0   11   13    2   65    9
+     2   14   12    0]
+ [  29  835  337   17   85   46    6   69   17    2   14    3    2   21
+    12    2    4    3]
+ [   3   31   48    4    3    7    1    3    4    0    2    0    0    2
+     2    0    0    1]
+ [ 137   41   11 2389  272   23   16    3    4   95   17    0    6    5
+     0   45   11    2]
+ [  90  251   55  141 2383  413   11   12    4   27  170   24    8   12
+     2   17   51   15]
+ [   3    8    3    7   24   46    1    3    0    2    6    3    1    2
+     0    2    2    0]
+ [   6    7    2   13    5    0  208   38    3    9   15    3    7    4
+     2    5    1    1]
+ [   0    1    2    0    1    1    4   55   33    0    7    5    0    1
+     3    0    1    0]
+ [   1    0    0    2    4    1    0    6    5    0    1    0    0    0
+     0    0    0    1]
+ [   9    2    0   13   14    1   35   10    3  351   69   14    0    2
+     2   14    6    1]
+ [   5    6    3    5    9    1    6   51   12   17  218   43    0    3
+     1    1    7    0]
+ [   1    0    2    1    1    1    1    0    0    1    2    0    2    0
+     0    1    0    0]
+ [   5    2    1    2    1    0    9    0    0    1    6    0  252   35
+     6   17   20    4]
+ [   8    8    2   14   10    2    3    6    2    1    7    2    5   65
+    23    4   19    7]
+ [   1    0    1    0    0    0    0    0    0    0    0    0    0    0
+     0    0    0    0]
+ [   3    4    0    1    4    4    2    1    1   12    4    0   46    8
+     2  397   62    7]
+ [   4    4    5    7    9    2    2    3    1    0   16    5   21   99
+    30   27  404   69]
+ [   5    1    2    5    7    0    3    2    0    0    0    1    2    2
+     1    1    0    0]]
+
+2021-04-06 12:55:21,865  |  Fold-[1] ==>  Validation on epoch1...
+2021-04-06 12:55:24,435  |  Fold-[1] ==> <Valid> Epoch: [01|15]  Batch: [000|148]	 Valid Acc: 0.875	 Valid F1: 0.6696428571428571	 Valid Loss: 1.9374558925628662
+2021-04-06 12:55:33,734  |  Fold-[1] ==> <Valid> Epoch: [01|15]  Batch: [050|148]	 Valid Acc: 0.8719362745098039	 Valid F1: 0.6808703350490072	 Valid Loss: 1.5826528809380298
+2021-04-06 12:55:42,578  |  Fold-[1] ==> <Valid> Epoch: [01|15]  Batch: [100|148]	 Valid Acc: 0.8409653465346535	 Valid F1: 0.6610832527332643	 Valid Loss: 1.8500257022206683
+2021-04-06 12:55:51,272  |  Fold-[1] ==> <Valid> Epoch: [01|15]  Batch: [147|148]	 Valid Acc: 0.8585304054054054	 Valid F1: 0.7045798178516613	 Valid Loss: 1.6438914234661492
+2021-04-06 12:55:51,438  |  Fold-[1] ==> <Valid> Epoch: [01|15] REPOST
+[[684  24   0  11   6   0   2   1   0   0   0   0   0   0   0   0   0   0]
+ [  1 389 103   1   2   3   0  11   1   0   0   0   0   2   2   0   0   0]
+ [  0  10  39   0   0   0   0   0   5   0   0   0   0   0   1   0   0   0]
+ [  4   0   0 863   8   0   0   0   0   0   0   0   0   0   0   0   0   0]
+ [  3  30   3  21 956 146   0   0   0   0   5   1   0   0   0   0   0   0]
+ [  0   0   0   0   0  30   0   0   0   0   0   0   0   0   0   0   0   0]
+ [  0   0   0   0   0   0 132   7   1   4   0   0   1   0   0   0   0   0]
+ [  0   0   0   0   0   0   0  34  22   0   0   0   0   0   0   0   0   0]
+ [  0   0   0   0   0   0   0   1   4   0   0   0   0   0   0   0   0   0]
+ [  0   0   0   1   0   0   0   0   0 191   5   0   0   0   0   0   0   0]
+ [  0   0   0   0   1   0   2  35   7   3 202  42   0   0   0   0   0   0]
+ [  0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0]
+ [  0   0   0   0   0   0   1   0   0   0   0   0 131   6   0   4   1   0]
+ [  0   0   0   0   0   0   0   0   0   0   0   0   0  60  35   0   0   0]
+ [  0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0]
+ [  0   0   0   0   0   0   0   0   0   0   0   0   2   0   0 170   8   0]
+ [  0   0   0   0   0   0   0   0   0   0   0   0   3  25   3   6 170  37]
+ [  0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0]]
+
+2021-04-06 12:55:51,685  |  Save Best Model ==> Epoch:1  |  Best acc: 0.000000  ----->  0.858530
+2021-04-06 12:55:52,048  |  Save Best Model ==> Epoch:1  |  Best f1: 0.000000  ----->  0.704580
+2021-04-06 12:55:52,456  |  Save Best Model ==> Epoch:1  |  Best loss: inf  ----->  1.643891
+2021-04-06 12:55:52,458  |  Fold-[1] ==> Training on epoch2...
+2021-04-06 12:55:56,587  |  Fold-[1] ==> <Train> Epoch: [02|15]  Batch: [000|443]	 Train Acc: 0.71875	 Train F1: 0.5037564999103461	 Train Loss: 2.673536 => [l_loss: 2.639329 | kl_loss: 0.006841]
+2021-04-06 12:56:42,168  |  Fold-[1] ==> <Train> Epoch: [02|15]  Batch: [050|443]	 Train Acc: 0.8167892156862745	 Train F1: 0.6681985311797072	 Train Loss: 2.196918 => [l_loss: 2.159525 | kl_loss: 0.007479]
+2021-04-06 12:57:28,883  |  Fold-[1] ==> <Train> Epoch: [02|15]  Batch: [100|443]	 Train Acc: 0.8301361386138614	 Train F1: 0.6801397383958238	 Train Loss: 2.112504 => [l_loss: 2.074560 | kl_loss: 0.007589]
+2021-04-06 12:58:18,313  |  Fold-[1] ==> <Train> Epoch: [02|15]  Batch: [150|443]	 Train Acc: 0.8373344370860927	 Train F1: 0.6845916898565784	 Train Loss: 2.047227 => [l_loss: 2.008709 | kl_loss: 0.007704]
+2021-04-06 12:59:09,089  |  Fold-[1] ==> <Train> Epoch: [02|15]  Batch: [200|443]	 Train Acc: 0.8384639303482587	 Train F1: 0.6859762975111019	 Train Loss: 2.002872 => [l_loss: 1.964947 | kl_loss: 0.007585]

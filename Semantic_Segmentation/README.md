@@ -11,7 +11,6 @@
     - public  LB : 0.7205 
     - private LB : 0.7043
     - [[발표 자료]](https://www.notion.so/MultiHead_Ensemble-a6d4e3db725a4588ab18ab7ea2551c92#0ace36d4004d4f17913cc543888fa0bd)
-    - [[Code]](https://github.com/bcaitech1/p3-ims-obd-multihead_ensemble/blob/master/Hongyeob-Kim/Semantic_Segmentation/)
 <br></br>
 
 ### 🗄 폴더 구조

@@ -48,8 +48,8 @@
 - `enriching_model.py` : 단일 Enriching model 학습코드
 - `load_data.py` : 데이터셋 로딩코드
 - `loss.py` : Label Smoothing
-
-
+<br></br>
+---
 ## 기술적 시도들
 
 - [x]  시도해 봤지만 잘 동작하지 않은 것들

@@ -42,12 +42,10 @@
 <br></br>
 
 ### 💻 소스 코드 설명
-- `src`
-    - `augmix.py` : SongbaeMix 오리지널 코드
-    - `losses.py` : semantic segmentation loss 모아놓은 코드 , import module을 통해 불러와서 train시 사용
-    - `scheduler.py` : cosine annealing with warm starts를 사용
-    - `utils.py` : train / valid 코드, 데이터셋 구성을 위한 utils함수 정의
-
+- `augmix.py` : SongbaeMix 오리지널 코드
+- `losses.py` : semantic segmentation loss 모아놓은 코드 , import module을 통해 불러와서 train시 사용
+- `scheduler.py` : cosine annealing with warm starts를 사용
+- `utils.py` : train / valid 코드, 데이터셋 구성을 위한 utils함수 정의
 - `experiments` : train arguments 관리를 쉽게하기 위해서 script파일로 훈련 수행
 - `test_scripts` : 어떤 모델이나 조건으로 테스트했는지 기억하기 위해서 shell script로 테스트 실행
 - `train_eval.py` : train dataset만을 학습하는 코드

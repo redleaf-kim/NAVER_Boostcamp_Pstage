@@ -1,5 +1,6 @@
 # Pstage 2 ] KLUE
 
+###### 📚 문장 내 개체간 관계 추출 Realtion Extraction
 ###### 📌 본 프로젝트는 [_*Naver AI Boostcamp*_](https://www.edwith.org/bcaitech1/)에서 진행됐습니다.
 <br></br>
 
